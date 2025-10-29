@@ -24,7 +24,7 @@ const Highlights = () => {
           <h1 id='title' className='section-heading'>
             Get Highlights
           </h1>
-          <div className='flex flex-wrap items-end items-center gap-5'>
+          <div className='flex flex-wrap items-end  gap-5'>
             <p className='link'>
               Watch the film <img src={watchImg} alt='watch' className='ml-2' />
             </p>
