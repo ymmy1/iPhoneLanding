@@ -37,7 +37,7 @@ const Hero = () => {
 
   return (
     <section className='w-full nav-height bg-black relative'>
-      <div className='h-5/6 w-full items-center flex-col'>
+      <div className='h-5/6 w-full flex-center flex-col'>
         <p id='hero' className='hero-title'>
           iPhone 15 Pro
         </p>
@@ -54,7 +54,7 @@ const Hero = () => {
         </div>
       </div>
       <div
-        className='flex flex-col items-center opacity-0 translate-y-20'
+        className='flex flex-col flex-center opacity-0 translate-y-20'
         id='cta'
       >
         <a href='#highlights' className='btn'>

@@ -41,7 +41,7 @@ canvas {
 }
 
 @layer utilities {
-  .items-center {
+  .flex-center {
     @apply flex items-center justify-center;
   }
 
