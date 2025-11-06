@@ -5,7 +5,7 @@ import { explore1Img, explore2Img, exploreVideo } from '../utils';
 import gsap from 'gsap';
 
 const Features = () => {
-  const videoRef = useRef();
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useGSAP(() => {
     gsap.to('#exploreVideo', {
@@ -15,22 +15,26 @@ const Features = () => {
         start: '-10% bottom',
       },
       onComplete: () => {
-        videoRef.current.play();
+        videoRef.current?.play();
       },
     });
 
-    animateWithGsap('#features_title', { y: 0, opacity: 1 });
+    animateWithGsap('#features_title', { y: 0, opacity: 1 }, undefined);
     animateWithGsap(
       '.g_grow',
       { scale: 1, opacity: 1, ease: 'power1' },
       { scrub: 5.5 }
     );
-    animateWithGsap('.g_text', {
-      y: 0,
-      opacity: 1,
-      ease: 'power2.inOut',
-      duration: 1,
-    });
+    animateWithGsap(
+      '.g_text',
+      {
+        y: 0,
+        opacity: 1,
+        ease: 'power2.inOut',
+        duration: 1,
+      },
+      undefined
+    );
   }, []);
 
   return (
@@ -88,8 +92,8 @@ const Features = () => {
                   <p className='feature-text g_text'>
                     iPhone 15 Pro is{' '}
                     <span className='text-white'>
-                      the first iPhone to feature an aerospace-grade titanium
-                      design
+                      the first and last iPhone to feature an aerospace-grade
+                      titanium design
                     </span>
                     , using the same alloy that spacecrafts use for missions to
                     Mars.
@@ -98,11 +102,10 @@ const Features = () => {
 
                 <div className='flex-1 flex-center'>
                   <p className='feature-text g_text'>
-                    Titanium has one of the best strength-to-weight ratios of
-                    any metal, making these our{' '}
-                    <span className='text-white'>
-                      lightest Pro models ever.
-                    </span>
+                    Next generation iPhones will not have titanium, because it
+                    turns out our vapor chamber was too weak for the higher
+                    thermal demands of future chips.
+                    <span className='text-white'> It overheats. </span>
                     You'll notice the difference the moment you pick one up.
                   </p>
                 </div>

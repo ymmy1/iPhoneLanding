@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { animateWithGsap } from '../utils/animations';
 
 const HowItWorks = () => {
-  const videoRef = useRef();
+  const videoRef = useRef(null);
 
   useGSAP(() => {
     gsap.from('#chip', {
@@ -19,12 +19,16 @@ const HowItWorks = () => {
       ease: 'power2.inOut',
     });
 
-    animateWithGsap('.g_fadeIn', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: 'power2.inOut',
-    });
+    animateWithGsap(
+      '.g_fadeIn',
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.inOut',
+      },
+      undefined
+    );
   }, []);
 
   return (
@@ -61,6 +65,7 @@ const HowItWorks = () => {
                 preload='none'
                 muted
                 autoPlay
+                loop
                 ref={videoRef}
               >
                 <source src={frameVideo} type='video/mp4' />
