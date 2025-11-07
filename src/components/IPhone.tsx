@@ -1,25 +1,41 @@
 import * as THREE from 'three';
-import React, { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useGLTF, useTexture } from '@react-three/drei';
 
-function Model(props) {
-  const { nodes, materials } = useGLTF('/models/scene.glb');
+type PhoneItem = {
+  img: string;
+  color: string[];
+};
 
-  const texture = useTexture(props.item.img);
+type ModelProps = JSX.IntrinsicElements['group'] & {
+  item: PhoneItem;
+};
+
+type GLTFResult = {
+  nodes: Record<string, { geometry: THREE.BufferGeometry }>;
+  materials: Record<string, THREE.Material & { color?: THREE.Color; needsUpdate: boolean }>;
+};
+
+function Model(props: ModelProps): JSX.Element {
+  const { nodes, materials } = useGLTF<GLTFResult>('/models/scene.glb');
+
+  const texture = useTexture(props.item.img) as THREE.Texture;
 
   useEffect(() => {
-    Object.entries(materials).map((material) => {
+    Object.entries(materials).forEach(([name, mat]) => {
       // these are the material names that can't be changed color
       if (
-        material[0] !== 'zFdeDaGNRwzccye' &&
-        material[0] !== 'ujsvqBWRMnqdwPx' &&
-        material[0] !== 'hUlRcbieVuIiOXG' &&
-        material[0] !== 'jlzuBkUzuJqgiAK' &&
-        material[0] !== 'xNrofRCqOXXHVZt'
+        name !== 'zFdeDaGNRwzccye' &&
+        name !== 'ujsvqBWRMnqdwPx' &&
+        name !== 'hUlRcbieVuIiOXG' &&
+        name !== 'jlzuBkUzuJqgiAK' &&
+        name !== 'xNrofRCqOXXHVZt'
       ) {
-        material[1].color = new THREE.Color(props.item.color[0]);
+        if ('color' in mat && mat.color instanceof THREE.Color) {
+          mat.color = new THREE.Color(props.item.color[0]);
+        }
       }
-      material[1].needsUpdate = true;
+      mat.needsUpdate = true;
     });
   }, [materials, props.item]);
 
