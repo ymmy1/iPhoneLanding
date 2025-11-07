@@ -16,7 +16,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className='bg-neutral-700 my-5 h-[1px] w-full' />
+        <div className='bg-neutral-700 my-5 h-px w-full' />
 
         <div className='flex md:flex-row flex-col md:items-center justify-between'>
           <p className='font-semibold text-gray text-xs'>

@@ -3,7 +3,14 @@ import * as THREE from 'three';
 import Lights from './Lights';
 import Loader from './Loader';
 import IPhone from './IPhone';
-import { Suspense, type Ref, type RefObject, type MutableRefObject, type Dispatch, type SetStateAction } from 'react';
+import {
+  Suspense,
+  type Ref,
+  type RefObject,
+  type MutableRefObject,
+  type Dispatch,
+  type SetStateAction,
+} from 'react';
 
 type SizeOption = 'small' | 'large';
 type PhoneModel = { title: string; color: string[]; img: string };
@@ -40,7 +47,7 @@ const ModelView = ({
     <View
       index={index}
       id={gsapType}
-      className={`w-full h-full absolute ${index === 2 ? 'right-[-100%]' : ''}`}
+      className={`w-full h-full absolute ${index === 2 ? '-right-full' : ''}`}
     >
       <ambientLight intensity={0.3} />
       <PerspectiveCamera makeDefault position={[0, 0, 4]} />
@@ -54,13 +61,19 @@ const ModelView = ({
         rotateSpeed={0.4}
         target={new THREE.Vector3(0, 0, 0)}
         onEnd={() =>
-          setRotationState(hasAzimuthal(controlRef)
-            ? controlRef.current.getAzimuthalAngle()
-            : 0)
+          setRotationState(
+            hasAzimuthal(controlRef)
+              ? controlRef.current.getAzimuthalAngle()
+              : 0
+          )
         }
       />
 
-      <group ref={groupRef} name={index === 1 ? 'small' : 'large'} position={[0, 0, 0]}>
+      <group
+        ref={groupRef}
+        name={index === 1 ? 'small' : 'large'}
+        position={[0, 0, 0]}
+      >
         <Suspense fallback={<Loader />}>
           <IPhone
             scale={index === 1 ? [15, 15, 15] : [17, 17, 17]}

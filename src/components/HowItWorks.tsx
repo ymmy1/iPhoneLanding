@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { chipImg, frameImg, frameVideo } from '../utils';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -8,16 +8,22 @@ const HowItWorks = () => {
   const videoRef = useRef(null);
 
   useGSAP(() => {
-    gsap.from('#chip', {
-      scrollTrigger: {
-        trigger: '#chip',
-        start: '20% bottom',
+    animateWithGsap(
+      '#chip',
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 2,
+        ease: 'power2.inOut',
       },
-      opacity: 0,
-      scale: 2,
-      duration: 2,
-      ease: 'power2.inOut',
-    });
+      undefined
+    );
+
+    animateWithGsap(
+      '#how-container',
+      { y: 0, opacity: 1, duration: 1 },
+      undefined
+    );
 
     animateWithGsap(
       '.g_fadeIn',
@@ -27,18 +33,18 @@ const HowItWorks = () => {
         duration: 1,
         ease: 'power2.inOut',
       },
-      undefined
+      { trigger: '.g_fadeIn', start: 'top 95%' }
     );
   }, []);
 
   return (
     <section className='common-padding'>
       <div className='screen-max-width'>
-        <div id='chip' className='flex-center w-full my-20'>
+        <div id='chip' className='flex-center w-full my-20 scale-200 opacity-0'>
           <img src={chipImg} alt='chip' width={180} height={180} />
         </div>
 
-        <div className='flex flex-col items-center'>
+        <div id='how-container' className='flex flex-col items-center'>
           <h2 className='hiw-title'>
             A17 Pro chip.
             <br /> A monster win for gaming.
@@ -50,7 +56,7 @@ const HowItWorks = () => {
         </div>
 
         <div className='mt-10 md:mt-20 mb-14'>
-          <div className='relative h-full flex-center'>
+          <div className='relative h-full flex-center '>
             <div className='overflow-hidden'>
               <img
                 src={frameImg}

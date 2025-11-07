@@ -22,7 +22,7 @@ export const navLists = [
   'Support',
 ];
 
-export const hightlightsSlides = [
+export const highlightsSlides = [
   {
     id: 1,
     textLists: [

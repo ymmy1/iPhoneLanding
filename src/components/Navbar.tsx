@@ -1,12 +1,71 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { appleImg, bagImg, searchImg } from '../utils';
 import { navLists } from '../constants';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
+
+  // Lock page scroll (html/body) when the curtain menu is open
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    if (menuOpen) {
+      html.classList.add('overflow-hidden');
+      body.classList.add('overflow-hidden', 'overscroll-none', 'touch-none');
+    } else {
+      html.classList.remove('overflow-hidden');
+      body.classList.remove('overflow-hidden', 'overscroll-none', 'touch-none');
+    }
+    return () => {
+      html.classList.remove('overflow-hidden');
+      body.classList.remove('overflow-hidden', 'overscroll-none', 'touch-none');
+    };
+  }, [menuOpen]);
+
+  // Close on Escape key
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    if (menuOpen) {
+      window.addEventListener('keydown', onKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [menuOpen]);
+
+  useGSAP(
+    () => {
+      const items = gsap.utils.toArray<HTMLElement>('.collapsed-menu_item');
+      if (!items.length) return;
+
+      if (menuOpen) {
+        gsap.set(items, { opacity: 0, y: 8 });
+        gsap.to(items, {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          stagger: 0.035,
+          ease: 'power2.out',
+          delay: 0.15,
+        });
+      } else {
+        gsap.to(items, {
+          opacity: 0,
+          duration: 0.1,
+          ease: 'power2.in',
+        });
+      }
+    },
+    { dependencies: [menuOpen], scope: menuRef }
+  );
 
   return (
-    <header className='relative w-full py-5 lg:px-10 px-5 flex justify-between items-center'>
+    <header className='relative w-full py-5 lg:px-10 px-5 flex justify-between items-center bg-zinc'>
       <nav className='flex w-full screen-max-width'>
         <img src={appleImg} alt='Apple' width={14} height={18} />
         <div className='flex flex-1 justify-center max-lg:hidden'>
@@ -20,7 +79,7 @@ const Navbar = () => {
             </a>
           ))}
         </div>
-        <div className='flex items-baseline gap-7 max-lg:justify-end max-lg:flex-1'>
+        <div className='flex items-center gap-7 max-lg:justify-end max-lg:flex-1'>
           <img src={searchImg} alt='search' width={18} height={18} />
           <img src={bagImg} alt='bag' width={18} height={18} />
           <button
@@ -51,8 +110,9 @@ const Navbar = () => {
       {/* Sliding curtain menu for mobile */}
       <div
         id='mobile-curtain-menu'
-        className={`lg:hidden absolute inset-x-0 top-0 z-50 overflow-hidden bg-black/95 backdrop-blur-sm border-b border-white/10 transform transition-transform duration-300 ease-out ${
-          menuOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
+        ref={menuRef}
+        className={`lg:hidden absolute inset-x-0 top-0 z-50 overflow-hidden bg-zinc backdrop-blur-sm border-b border-white/10 transition-[height] duration-400 ease-in ${
+          menuOpen ? 'h-screen' : 'h-0 pointer-events-none'
         }`}
         role='dialog'
         aria-modal='true'
@@ -62,7 +122,7 @@ const Navbar = () => {
             type='button'
             aria-label='Close menu'
             onClick={() => setMenuOpen(false)}
-            className='absolute cursor-pointer right-5 top-5 p-2 text-gray hover:text-white transition-colors'
+            className='absolute cursor-pointer right-3 top-3 p-2 text-gray hover:text-white transition-colors'
           >
             <svg
               width='24'
@@ -83,7 +143,7 @@ const Navbar = () => {
                 <a
                   href='#'
                   onClick={() => setMenuOpen(false)}
-                  className='block py-[3%] text-3xl text-white hover:text-gray transition-colors'
+                  className='collapsed-menu_item block py-[2%] text-3xl text-white hover:text-gray transition-colors'
                 >
                   {item}
                 </a>
