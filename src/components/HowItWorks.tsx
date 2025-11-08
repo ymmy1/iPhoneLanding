@@ -1,22 +1,23 @@
 import { useRef } from 'react';
 import { chipImg, frameImg, frameVideo } from '../utils';
 import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 import { animateWithGsap } from '../utils/animations';
 
 const HowItWorks = () => {
   const videoRef = useRef(null);
 
   useGSAP(() => {
-    animateWithGsap(
-      '#chip',
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 2,
-        ease: 'power2.inOut',
+    gsap.from('#chip', {
+      scrollTrigger: {
+        trigger: '#chip',
+        start: '20% bottom',
       },
-      undefined
-    );
+      opacity: 0,
+      scale: 2,
+      duration: 2,
+      ease: 'power2.inOut',
+    });
 
     animateWithGsap(
       '#how-container',
@@ -39,7 +40,7 @@ const HowItWorks = () => {
   return (
     <section className='common-padding'>
       <div className='screen-max-width'>
-        <div id='chip' className='flex-center w-full my-20 scale-200 opacity-0'>
+        <div id='chip' className='flex-center w-full my-20'>
           <img src={chipImg} alt='chip' width={180} height={180} />
         </div>
 

@@ -6,9 +6,9 @@ import Loader from './Loader';
 import IPhone from './IPhone';
 import {
   Suspense,
-  type MutableRefObject,
   type Dispatch,
   type SetStateAction,
+  type RefObject,
 } from 'react';
 
 type SizeOption = 'small' | 'large';
@@ -19,14 +19,14 @@ type ModelViewProps = {
   gsapType: string;
   size: SizeOption;
   item: PhoneModel;
-  groupRef: MutableRefObject<THREE.Group>;
-  controlRef: MutableRefObject<OrbitControlsImpl | null>;
+  groupRef: RefObject<THREE.Group>;
+  controlRef: RefObject<OrbitControlsImpl | null>;
   setRotationState: Dispatch<SetStateAction<number>>;
 };
 
 function hasAzimuthal(
-  ref: MutableRefObject<OrbitControlsImpl | null>
-): ref is MutableRefObject<OrbitControlsImpl> {
+  ref: RefObject<OrbitControlsImpl | null>
+): ref is RefObject<OrbitControlsImpl> {
   return !!ref.current && typeof ref.current.getAzimuthalAngle === 'function';
 }
 

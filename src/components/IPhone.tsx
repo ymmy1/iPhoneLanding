@@ -2,41 +2,58 @@ import * as THREE from 'three';
 import { useEffect } from 'react';
 import { useGLTF, useTexture } from '@react-three/drei';
 
-type PhoneItem = {
-  img: string;
-  color: string[];
-};
+interface ModelProps {
+  item: {
+    img: string;
+    color: string[];
+  };
+  [key: string]: any; // For other props spread in {...props}
+}
 
-type ModelProps = JSX.IntrinsicElements['group'] & {
-  item: PhoneItem;
-};
+interface MaterialEntry {
+  [key: string]: THREE.Material;
+}
 
-type GLTFResult = {
-  nodes: Record<string, { geometry: THREE.BufferGeometry }>;
-  materials: Record<string, THREE.Material & { color?: THREE.Color; needsUpdate: boolean }>;
-};
+interface GLTFResult {
+  nodes: {
+    [key: string]: THREE.Mesh;
+  };
+  materials: MaterialEntry;
+}
 
-function Model(props: ModelProps): JSX.Element {
-  const { nodes, materials } = useGLTF<GLTFResult>('/models/scene.glb');
+function Model(props: ModelProps) {
+  const { nodes, materials } = useGLTF(
+    '/models/scene.glb'
+  ) as unknown as GLTFResult;
 
-  const texture = useTexture(props.item.img) as THREE.Texture;
+  const texture = useTexture(props.item.img);
 
   useEffect(() => {
-    Object.entries(materials).forEach(([name, mat]) => {
-      // these are the material names that can't be changed color
-      if (
-        name !== 'zFdeDaGNRwzccye' &&
-        name !== 'ujsvqBWRMnqdwPx' &&
-        name !== 'hUlRcbieVuIiOXG' &&
-        name !== 'jlzuBkUzuJqgiAK' &&
-        name !== 'xNrofRCqOXXHVZt'
-      ) {
-        if ('color' in mat && mat.color instanceof THREE.Color) {
-          mat.color = new THREE.Color(props.item.color[0]);
+    Object.entries(materials).forEach(
+      ([name, mat]: [string, THREE.Material]) => {
+        // these are the material names that can't be changed color
+        if (
+          name !== 'zFdeDaGNRwzccye' &&
+          name !== 'ujsvqBWRMnqdwPx' &&
+          name !== 'hUlRcbieVuIiOXG' &&
+          name !== 'jlzuBkUzuJqgiAK' &&
+          name !== 'xNrofRCqOXXHVZt'
+        ) {
+          // Narrow the material to types that include a color property, guard at runtime,
+          // and use .set to update the color to satisfy TypeScript and Three.js usage.
+          const colored = mat as
+            | THREE.MeshStandardMaterial
+            | THREE.MeshPhongMaterial
+            | THREE.MeshLambertMaterial
+            | any;
+          if ('color' in colored && colored.color) {
+            colored.color.set(props.item.color[0]);
+          }
         }
+        // needsUpdate may not be on the base Material type in TS, so cast to any
+        (mat as any).needsUpdate = true;
       }
-      mat.needsUpdate = true;
-    });
+    );
   }, [materials, props.item]);
 
   return (
