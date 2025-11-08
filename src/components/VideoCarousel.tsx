@@ -3,7 +3,6 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/all';
 gsap.registerPlugin(ScrollTrigger);
 import { useEffect, useRef, useState } from 'react';
-import type { SyntheticEvent } from 'react';
 
 import { highlightsSlides } from '../constants';
 import { pauseImg, playImg, replayImg } from '../utils';
@@ -169,10 +168,8 @@ const VideoCarousel = () => {
     }
   };
 
-  const handleLoadedMetaData = (
-    i: number,
-    _e: SyntheticEvent<HTMLVideoElement, Event>
-  ) => setLoadedData((pre) => [...pre, i]);
+  const handleLoadedMetaData = (i: number) =>
+    setLoadedData((pre) => [...pre, i]);
 
   return (
     <>
@@ -200,7 +197,7 @@ const VideoCarousel = () => {
                   onPlay={() =>
                     setVideo((pre) => ({ ...pre, isPlaying: true }))
                   }
-                  onLoadedMetadata={(e) => handleLoadedMetaData(i, e)}
+                  onLoadedMetadata={() => handleLoadedMetaData(i)}
                 >
                   <source src={list.video} type='video/mp4' />
                 </video>

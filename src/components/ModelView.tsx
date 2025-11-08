@@ -1,12 +1,11 @@
 import { OrbitControls, PerspectiveCamera, View } from '@react-three/drei';
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import * as THREE from 'three';
 import Lights from './Lights';
 import Loader from './Loader';
 import IPhone from './IPhone';
 import {
   Suspense,
-  type Ref,
-  type RefObject,
   type MutableRefObject,
   type Dispatch,
   type SetStateAction,
@@ -21,17 +20,14 @@ type ModelViewProps = {
   size: SizeOption;
   item: PhoneModel;
   groupRef: MutableRefObject<THREE.Group>;
-  controlRef: RefObject<any> | MutableRefObject<any>;
+  controlRef: MutableRefObject<OrbitControlsImpl | null>;
   setRotationState: Dispatch<SetStateAction<number>>;
 };
 
 function hasAzimuthal(
-  ref: RefObject<any> | MutableRefObject<any>
-): ref is { current: { getAzimuthalAngle: () => number } } {
-  return (
-    !!(ref as any)?.current &&
-    typeof (ref as any).current.getAzimuthalAngle === 'function'
-  );
+  ref: MutableRefObject<OrbitControlsImpl | null>
+): ref is MutableRefObject<OrbitControlsImpl> {
+  return !!ref.current && typeof ref.current.getAzimuthalAngle === 'function';
 }
 
 const ModelView = ({
@@ -55,7 +51,9 @@ const ModelView = ({
 
       <OrbitControls
         makeDefault
-        ref={controlRef as unknown as Ref<any>}
+        ref={(instance: OrbitControlsImpl | null) => {
+          controlRef.current = instance;
+        }}
         enableZoom={false}
         enablePan={false}
         rotateSpeed={0.4}

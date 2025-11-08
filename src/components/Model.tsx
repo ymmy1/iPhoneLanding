@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { yellowImg } from '../utils';
 
 import * as THREE from 'three';
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Canvas } from '@react-three/fiber';
 import { View } from '@react-three/drei';
 import { models, sizes } from '../constants';
@@ -19,8 +20,8 @@ const Model = () => {
   });
 
   // camera control for the model view
-  const cameraControlSmall = useRef<any>(null);
-  const cameraControlLarge = useRef<any>(null);
+  const cameraControlSmall = useRef<OrbitControlsImpl | null>(null);
+  const cameraControlLarge = useRef<OrbitControlsImpl | null>(null);
 
   // model
   const small = useRef(new THREE.Group());
