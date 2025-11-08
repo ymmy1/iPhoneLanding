@@ -22,9 +22,8 @@ interface GLTFResult {
 }
 
 function Model(props: ModelProps) {
-  const { nodes, materials } = useGLTF(
-    '/models/scene.glb'
-  ) as unknown as GLTFResult;
+  const gltfPath = `${import.meta.env.BASE_URL}models/scene.glb`;
+  const { nodes, materials } = useGLTF(gltfPath) as unknown as GLTFResult;
 
   const texture = useTexture(props.item.img);
 
@@ -283,4 +282,4 @@ function Model(props: ModelProps) {
 
 export default Model;
 
-useGLTF.preload('/models/scene.glb');
+useGLTF.preload(`${import.meta.env.BASE_URL}models/scene.glb`);
