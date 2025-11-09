@@ -1,73 +1,118 @@
-# React + TypeScript + Vite
+# iPhone Landing 
+#### (React + Vite + R3F + GSAP + Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<img src='https://i.imgur.com/BPRBF6T.gif' />
 
-Currently, two official plugins are available:
+This is an interactive landing page inspired by Apple's iPhone product site. It features a responsive hero, scroll‑triggered highlights, a 3D iPhone viewer with lighting and orbit controls, video sections, and subtle UI polish, all built with modern React, Vite, Tailwind v4, GSAP, and React Three Fiber.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Demo‑ready build via GitHub Pages
+- 3D model (glTF) with orbit controls and custom lights
+- Scroll‑driven animations and video carousels
+- Responsive Tailwind v4 utilities and tokens
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- React 19 + TypeScript (Vite 7)
+- Tailwind CSS v4 (`@tailwindcss/vite`) with `@theme` tokens
+- React Three Fiber + Drei + Three.js
+- GSAP + ScrollTrigger
+- gh-pages (deployment)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Hero with responsive videos (desktop/mobile) and staged reveals
+- Highlights section with video carousel, play/pause/replay controls
+- 3D model viewer:
+  - Orbit controls (pan/zoom disabled), smooth rotations
+  - Size toggle (6.1"/6.7") and color swatches
+  - Lights, environment maps, and preloading
+- “How It Works” chip reveal and inline video in device frame
+- Polished, responsive UI with Tailwind v4 utilities
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Prerequisites:
+- Node 18+ (recommended 18.17+)
+- npm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Install:
+- `npm install`
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Run dev server:
+- `npm run dev`
+- Open the printed local URL
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Build and preview:
+- `npm run build`
+- `npm run preview`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Lint:
+- `npm run lint`
+
+## Scripts
+
+- `dev`: Start Vite dev server
+- `build`: Type‑check and build to `dist/`
+- `preview`: Preview the production build
+- `lint`: Run ESLint
+- `deploy`: Build with proper base and publish `dist/` to GitHub Pages (runs `predeploy` automatically)
+
+## Deploy to GitHub Pages
+
+The project includes a deploy workflow using `gh-pages`.
+
+1. `npm run deploy`
+2. In your GitHub repo settings, set Pages to deploy from the `gh-pages` branch
+3. If your repo name or path differs, update the base path in the `predeploy` script of `package.json` (`vite build --base=/iPhoneLanding/`) to match your repository name
+
+Note: `predeploy` also copies `dist/index.html` to `dist/404.html` to support refresh routing on Pages.
+
+## Project Structure
+
+- `index.html`: Base HTML document and app mount
+- `package.json`: Scripts, dependencies, and GH Pages config
+- `vite.config.ts`: Vite + React SWC + Tailwind v4 plugin
+- `src/main.tsx`: App bootstrap
+- `src/App.tsx`: Page composition
+- `src/index.css`: Tailwind v4 setup, tokens, and utilities
+- `src/components/`: UI sections and 3D components
+  - `src/components/Hero.tsx`: Responsive hero videos + GSAP staging
+  - `src/components/Highlights.tsx`: Section heading + link reveals
+  - `src/components/VideoCarousel.tsx`: Scroll‑triggered carousel, progress indicators, play/pause/replay
+  - `src/components/Model.tsx`: Size/color picker + R3F canvas/viewports
+  - `src/components/ModelView.tsx`: Orbit controls, lights, camera per viewport
+  - `src/components/IPhone.tsx`: glTF iPhone model + `useGLTF.preload`
+  - `src/components/Lights.tsx`: Environment + Lightformers + spot lights
+  - `src/components/HowItWorks.tsx`: Chip reveal and framed inline video
+  - `src/components/Navbar.tsx`, `src/components/Footer.tsx`: Header and footer
+- `src/constants/index.ts`: Data for nav, highlights, models, sizes, footer
+- `src/utils/index.ts`: Centralized asset imports (images/videos)
+- `src/utils/animations.ts`: GSAP helpers + ScrollTrigger registration
+- `public/assets`: Images and videos
+- `public/models`: 3D models (`Iphone17.glb`, `scene.glb`)
+
+## Key Implementation Notes
+
+- Tailwind v4:
+  - Config via `@tailwindcss/vite` and `@theme` tokens in `src/index.css`
+- GSAP:
+  - ScrollTrigger registered in `src/utils/animations.ts`
+  - Section reveals and progress indicators driven by GSAP timelines
+- 3D:
+  - R3F `Canvas` + `View.Port` for multi‑view setup
+  - `OrbitControls` (rotation only), `Environment`, `Lightformer`, spot lights
+  - Model preloaded: `useGLTF.preload('/models/Iphone17.glb')`
+- Media:
+  - Videos are `muted` to allow autoplay
+  - Use `npm run preview` to validate production behavior with optimized assets
+
+## Customization
+
+- Update deployment base in `package.json` “predeploy” if your repo name changes
+- Replace `public/assets` media with your own
+- Swap or adjust the 3D model in `public/models/` and `src/components/IPhone.tsx`
+- Tweak Tailwind tokens/utilities in `src/index.css`
+
+## Attribution
+
+This project is an educational, non‑commercial clone. Apple, iPhone, and related marks are trademarks of Apple Inc. All included media are for demonstration purposes.
