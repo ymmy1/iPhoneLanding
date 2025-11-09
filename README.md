@@ -1,4 +1,5 @@
-# iPhone Landing 
+# <img src="/public/assets/images/apple.svg" alt="Disney" width="40px"/> iPhone Landing 
+<https://ymmy1.github.io/iPhoneLanding/>
 #### (React + Vite + R3F + GSAP + Tailwind)
 
 ![homepage](/public/assets/videos/12108.gif)
