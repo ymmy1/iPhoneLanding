@@ -3,7 +3,8 @@
 
 ![homepage](https://i.imgur.com/BPRBF6T.gif)
 
-<img src='https://i.imgur.com/BPRBF6T.gif' />
+<img src='https://i.imgur.com/BPRBF6T.gif'  width="500px"/>
+
 This is an interactive landing page inspired by Apple's iPhone product site. It features a responsive hero, scroll‑triggered highlights, a 3D iPhone viewer with lighting and orbit controls, video sections, and subtle UI polish, all built with modern React, Vite, Tailwind v4, GSAP, and React Three Fiber.
 
 - Demo‑ready build via GitHub Pages
