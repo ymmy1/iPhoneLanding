@@ -1,4 +1,4 @@
-# <img src="/public/assets/images/apple.svg" alt="Disney" width="40px"/> iPhone Landing 
+# <img src="/public/assets/images/apple.svg" alt="Disney" width=25px"/> iPhone Landing 
 <https://ymmy1.github.io/iPhoneLanding/>
 #### (React + Vite + R3F + GSAP + Tailwind)
 
