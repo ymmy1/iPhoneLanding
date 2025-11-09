@@ -3,9 +3,8 @@ import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/all';
 gsap.registerPlugin(ScrollTrigger);
 import { useEffect, useRef, useState } from 'react';
-import type { SyntheticEvent } from 'react';
 
-import { hightlightsSlides } from '../constants';
+import { highlightsSlides } from '../constants';
 import { pauseImg, playImg, replayImg } from '../utils';
 
 type VideoState = {
@@ -109,7 +108,7 @@ const VideoCarousel = () => {
       // update the progress bar
       const animUpdate = () => {
         const el = videoRef.current[videoId];
-        const duration = hightlightsSlides[videoId]?.videoDuration ?? 1;
+        const duration = highlightsSlides[videoId]?.videoDuration ?? 1;
         if (el) {
           anim.progress(el.currentTime / duration);
         }
@@ -169,15 +168,13 @@ const VideoCarousel = () => {
     }
   };
 
-  const handleLoadedMetaData = (
-    i: number,
-    _e: SyntheticEvent<HTMLVideoElement, Event>
-  ) => setLoadedData((pre) => [...pre, i]);
+  const handleLoadedMetaData = (i: number) =>
+    setLoadedData((pre) => [...pre, i]);
 
   return (
     <>
       <div className='flex items-center'>
-        {hightlightsSlides.map((list, i) => (
+        {highlightsSlides.map((list, i) => (
           <div key={list.id} id='slider' className='sm:pr-20 pr-10'>
             <div className='video-carousel_container'>
               <div className='w-full h-full flex-center rounded-3xl overflow-hidden bg-black'>
@@ -200,7 +197,7 @@ const VideoCarousel = () => {
                   onPlay={() =>
                     setVideo((pre) => ({ ...pre, isPlaying: true }))
                   }
-                  onLoadedMetadata={(e) => handleLoadedMetaData(i, e)}
+                  onLoadedMetadata={() => handleLoadedMetaData(i)}
                 >
                   <source src={list.video} type='video/mp4' />
                 </video>

@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { chipImg, frameImg, frameVideo } from '../utils';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { animateWithGsap } from '../utils/animations';
 
 const HowItWorks = () => {
-  const videoRef = useRef();
+  const videoRef = useRef(null);
 
   useGSAP(() => {
     gsap.from('#chip', {
@@ -19,12 +19,22 @@ const HowItWorks = () => {
       ease: 'power2.inOut',
     });
 
-    animateWithGsap('.g_fadeIn', {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: 'power2.inOut',
-    });
+    animateWithGsap(
+      '#how-container',
+      { y: 0, opacity: 1, duration: 1 },
+      undefined
+    );
+
+    animateWithGsap(
+      '.g_fadeIn',
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.inOut',
+      },
+      { trigger: '.g_fadeIn', start: 'top 95%' }
+    );
   }, []);
 
   return (
@@ -34,7 +44,7 @@ const HowItWorks = () => {
           <img src={chipImg} alt='chip' width={180} height={180} />
         </div>
 
-        <div className='flex flex-col items-center'>
+        <div id='how-container' className='flex flex-col items-center'>
           <h2 className='hiw-title'>
             A17 Pro chip.
             <br /> A monster win for gaming.
@@ -46,7 +56,7 @@ const HowItWorks = () => {
         </div>
 
         <div className='mt-10 md:mt-20 mb-14'>
-          <div className='relative h-full flex-center'>
+          <div className='relative h-full flex-center '>
             <div className='overflow-hidden'>
               <img
                 src={frameImg}
@@ -61,6 +71,7 @@ const HowItWorks = () => {
                 preload='none'
                 muted
                 autoPlay
+                loop
                 ref={videoRef}
               >
                 <source src={frameVideo} type='video/mp4' />

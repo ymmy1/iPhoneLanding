@@ -5,13 +5,14 @@ import { useEffect, useRef, useState } from 'react';
 import { yellowImg } from '../utils';
 
 import * as THREE from 'three';
+import type { OrbitControls as OrbitControlsImpl } from 'three-stdlib';
 import { Canvas } from '@react-three/fiber';
 import { View } from '@react-three/drei';
 import { models, sizes } from '../constants';
-import { animateWithGsapTimeline } from '../utils/animations';
+import { animateWithGsap, animateWithGsapTimeline } from '../utils/animations';
 
 const Model = () => {
-  const [size, setSize] = useState('small');
+  const [size, setSize] = useState<'small' | 'large'>('small');
   const [model, setModel] = useState({
     title: 'iPhone 15 Pro in Natural Titanium',
     color: ['#8F8A81', '#FFE7B9', '#6F6C64'],
@@ -19,8 +20,8 @@ const Model = () => {
   });
 
   // camera control for the model view
-  const cameraControlSmall = useRef<any>(null);
-  const cameraControlLarge = useRef<any>(null);
+  const cameraControlSmall = useRef<OrbitControlsImpl | null>(null);
+  const cameraControlLarge = useRef<OrbitControlsImpl | null>(null);
 
   // model
   const small = useRef(new THREE.Group());
@@ -49,7 +50,7 @@ const Model = () => {
   }, [size]);
 
   useGSAP(() => {
-    gsap.to('#heading', { y: 0, opacity: 1 });
+    animateWithGsap('#heading', { y: 0, opacity: 1 }, undefined);
   }, []);
 
   return (
@@ -60,7 +61,7 @@ const Model = () => {
         </h1>
 
         <div className='flex flex-col items-center mt-5'>
-          <div className='w-full h-[75vh] md:h-[90vh] overflow-hidden relative'>
+          <div className='w-full cursor-grab h-[75vh] md:h-[90vh] overflow-hidden relative'>
             <ModelView
               index={1}
               groupRef={small}
@@ -101,7 +102,7 @@ const Model = () => {
             <p className='text-sm font-light text-center mb-5'>{model.title}</p>
 
             <div className='flex-center'>
-              <ul className='color-container'>
+              <ul className='color-container cursor-pointer'>
                 {models.map((item, i) => (
                   <li
                     key={i}
@@ -112,7 +113,7 @@ const Model = () => {
                 ))}
               </ul>
 
-              <button className='size-btn-container'>
+              <button className='size-btn-container cursor-pointer'>
                 {sizes.map(({ label, value }) => (
                   <span
                     key={label}

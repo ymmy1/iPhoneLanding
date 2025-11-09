@@ -22,7 +22,7 @@ export const navLists = [
   'Support',
 ];
 
-export const hightlightsSlides = [
+export const highlightsSlides = [
   {
     id: 1,
     textLists: [
@@ -84,7 +84,7 @@ export const models = [
   },
 ];
 
-export const sizes = [
+export const sizes: { label: string; value: 'small' | 'large' }[] = [
   { label: '6.1"', value: 'small' },
   { label: '6.7"', value: 'large' },
 ];
